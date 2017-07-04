@@ -58,4 +58,15 @@ export class AddTodoComponent implements OnInit {
             this.router.navigate(["/list"]);
         }
     }
+
+    updateToDo() {
+        if (!this.form.valid) {
+            return;
+        }
+        this.toDo.name = this.form.value.name;
+        this.toDo.description = this.form.value.description;
+        if (this._ToDoService.updateToDo(this.toDo)) {
+            this.router.navigate(["/list"]);
+        }
+    }
 }

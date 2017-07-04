@@ -25,9 +25,31 @@ export class ToDoService {
 
     public addToDo(toDo: ToDo): boolean {
         try {
-            this.toDos = this.toDos || [];
+            this.toDos = JSON.parse(localStorage.getItem('toDos')) || [];
             toDo.id = this.getNewId();
             this.toDos.push(toDo);
+            localStorage.setItem('toDos', JSON.stringify(this.toDos));
+            return true;
+        } catch (error) {
+            console.error(error);
+            return false
+        }
+    }
+
+    public updateToDo(toDo: ToDo): boolean {
+
+        if (!toDo || !toDo.id) {
+            return false;
+        }
+
+        try {
+            this.toDos = JSON.parse(localStorage.getItem('toDos')) || [];
+            this.toDos.forEach((toDoItem: ToDo) => {
+                if (toDo.id === toDoItem.id) {
+                    toDoItem.name = toDo.name;
+                    toDoItem.description = toDo.description;
+                }
+            });
             localStorage.setItem('toDos', JSON.stringify(this.toDos));
             return true;
         } catch (error) {
@@ -43,7 +65,7 @@ export class ToDoService {
         }
 
         try {
-            this.toDos = this.toDos || [];
+            this.toDos = JSON.parse(localStorage.getItem('toDos')) || [];
             this.toDos = this.toDos.filter((toDoItem: ToDo) => {
                 return toDoItem.id !== toDo.id;
             });

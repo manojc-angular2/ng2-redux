@@ -10,6 +10,7 @@
         <label class="required">*</label>
         <textarea id="description" cols="30" rows="10" formControlName="description" required></textarea>
 
-        <input type="button" (click)="addToDo()" value="Add To Do" [disabled]="!form.valid">
+        <input *ngIf="!toDo.id" type="button" (click)="addToDo()" value="Add To Do" [disabled]="!form.valid">
+        <input *ngIf="toDo.id" type="button" (click)="updateToDo()" value="Update To Do" [disabled]="!form.valid">
     </form>
 </div>
