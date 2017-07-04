@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd, ActivatedRoute, Params } from "@angular/router";
 import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { ToDo } from "../models/todo.model";
+import { ToDoService } from "../to-do.service";
 
 @Component({
     selector: 'app-add-todo',
@@ -12,8 +14,17 @@ export class AddTodoComponent implements OnInit {
     private toDo: ToDo;
     private form: FormGroup;
 
-    constructor(private fb: FormBuilder) {
+    constructor(
+        private fb: FormBuilder,
+        private activatedRoute: ActivatedRoute,
+        private _ToDoService: ToDoService,
+        private router: Router) {
         this.toDo = this.toDo || new ToDo();
+        this.activatedRoute.queryParams.subscribe((params: Params) => {
+            if (params.id) {
+                this.toDo = this._ToDoService.getToDo(params.id);
+            }
+        });
     }
 
     ngOnInit() {
@@ -43,7 +54,8 @@ export class AddTodoComponent implements OnInit {
         if (!this.form.valid) {
             return;
         }
-
-        console.log(this.form.value);
+        if (this._ToDoService.addToDo(this.form.value)) {
+            this.router.navigate(["/list"]);
+        }
     }
 }

@@ -7,16 +7,25 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Action</th>
+                <th>Actions</th>
             </tr>
         </thead>
-        <tbody>
-            <tr *ngFor="let toDo of ToDos">
-                <td>{{toDo?.id}}</td>
-                <td>{{toDo?.name}}</td>
-                <td>{{toDo?.description}}</td>
-                <td><a href="">Edit</a> | <a href="">Delete</a></td>
-            </tr>
-        </tbody>
+        <ng-container *ngIf="toDos && toDos.length">
+            <tbody>
+                <tr *ngFor="let toDo of toDos">
+                    <td>{{toDo?.id}}</td>
+                    <td>{{toDo?.name}}</td>
+                    <td>{{toDo?.description}}</td>
+                    <td>
+                        <button (click)="editToDo(toDo)">Edit</button> &nbsp;&nbsp;&nbsp;
+                        <button (click)="deleteToDo(toDo)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </ng-container>
     </table>
+    <br>
+    <ng-container *ngIf="!toDos || !toDos.length">
+        No to do items to display!
+    </ng-container>
 </div>
