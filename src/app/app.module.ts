@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { AddTodoComponent } from './add-todo/add-todo.component';
 import { ListTodoComponent } from './list-todo/list-todo.component';
 import { appRoutes } from "./app-routes";
-import { PageNotFoundComponent } from './home/home.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ToDoService } from "./to-do.service";
 
 @NgModule({
