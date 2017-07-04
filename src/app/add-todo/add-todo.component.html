@@ -1,0 +1,15 @@
+<div>
+    <h2>Add New To Do</h2>
+    <a class="new" [routerLink]="['/list']">View To Dos</a>
+    <form [formGroup]="form">
+        <label for="title">Title</label>
+        <label class="required">*</label>
+        <input type="text" id="title" name="title" placeholder="to do title.." formControlName="name" required>
+
+        <label for="description">Description</label>
+        <label class="required">*</label>
+        <textarea id="description" cols="30" rows="10" formControlName="description" required></textarea>
+
+        <input type="button" (click)="addToDo()" value="Add To Do" [disabled]="!form.valid">
+    </form>
+</div>

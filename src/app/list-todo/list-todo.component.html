@@ -1,0 +1,22 @@
+<div>
+    <h2>To Do List</h2>
+    <a class="new" [routerLink]="['/add']">Add New To Do</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let toDo of ToDos">
+                <td>{{toDo?.id}}</td>
+                <td>{{toDo?.name}}</td>
+                <td>{{toDo?.description}}</td>
+                <td><a href="">Edit</a> | <a href="">Delete</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
