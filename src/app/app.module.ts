@@ -11,6 +11,7 @@ import { ListTodoComponent } from './list-todo/list-todo.component';
 import { appRoutes } from "./app-routes";
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ToDoService } from "./to-do.service";
+import { toDoReducer } from "./reducers/to-do-reducer";
 
 @NgModule({
     declarations: [
@@ -23,8 +24,8 @@ import { ToDoService } from "./to-do.service";
         BrowserModule,
         HttpModule,
         FormsModule,
-		ReactiveFormsModule,
-        StoreModule,
+        ReactiveFormsModule,
+        StoreModule.provideStore({ todo: toDoReducer }),
         RouterModule.forRoot(
             appRoutes
         )

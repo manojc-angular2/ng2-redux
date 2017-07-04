@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { AppModelState } from "../models/app-model-state";
 import { ToDoService } from "../to-do.service";
 import { ToDo } from "../models/todo.model";
 
@@ -14,10 +16,14 @@ export class ListTodoComponent implements OnInit {
 
     constructor(
         private _ToDoService: ToDoService,
-        private router: Router) { }
+        private router: Router,
+        private _Store: Store<AppModelState<ToDo[]>>) { }
 
     ngOnInit() {
-        this.getToDos();
+        // this.getToDos();
+        this._Store.select('todo').subscribe((response: ToDo[]) => {
+            this.toDos = response;
+        });
     }
 
     deleteToDo(toDo: ToDo) {

@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute, Params } from "@angular/router";
 import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
+import { Store } from "@ngrx/store";
+import { toDoReducer, ADD_TODO, DELETE_TODO, UPDATE_TODO } from "../reducers/to-do-reducer";
 import { ToDo } from "../models/todo.model";
+import { AppModelState } from "../models/app-model-state";
 import { ToDoService } from "../to-do.service";
 
 @Component({
@@ -14,7 +17,11 @@ export class AddTodoComponent implements OnInit {
     private toDo: ToDo;
     private form: FormGroup;
 
-    constructor(private _FormBuilder: FormBuilder, private _ActivatedRoute: ActivatedRoute, private _ToDoService: ToDoService, private _Router: Router) {
+    constructor(private _FormBuilder: FormBuilder,
+        private _ActivatedRoute: ActivatedRoute,
+        private _ToDoService: ToDoService,
+        private _Router: Router,
+        private _Store: Store<AppModelState<ToDo[]>>) {
         this.initializeForm();
     }
 
@@ -45,7 +52,10 @@ export class AddTodoComponent implements OnInit {
         if (!this.form.valid) {
             return;
         }
-        this.redirect(this._ToDoService.addToDo(this.form.value));
+
+        // this.redirect(this._ToDoService.addToDo(this.form.value));
+        this._Store.dispatch({ type: ADD_TODO, payload: this.form.value });
+        this._Router.navigate(["/home"]);
     }
 
     public updateToDo(): void {
