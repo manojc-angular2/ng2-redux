@@ -44,7 +44,7 @@ export class AddTodoComponent implements OnInit {
                 this.toDo.description, [
                     Validators.required,
                     Validators.minLength(3),
-                    Validators.maxLength(500)
+                    Validators.maxLength(5000)
                 ]
             ]
         });

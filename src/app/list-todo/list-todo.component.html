@@ -15,7 +15,7 @@
                 <tr *ngFor="let toDo of toDos">
                     <td>{{toDo?.id}}</td>
                     <td>{{toDo?.name}}</td>
-                    <td>{{toDo?.description}}</td>
+                    <td class="description">{{toDo?.description}}</td>
                     <td>
                         <button (click)="editToDo(toDo)">Edit</button> &nbsp;&nbsp;&nbsp;
                         <button (click)="deleteToDo(toDo)">Delete</button>
