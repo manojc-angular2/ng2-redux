@@ -1,4 +1,6 @@
-# Ng2Redux
+# ngrx/store
+
+RxJS powered state management for Angular applications, inspired by Redux.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.6.
 

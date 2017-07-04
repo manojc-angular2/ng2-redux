@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { AddTodoComponent } from './add-todo/add-todo.component';
 import { ListTodoComponent } from './list-todo/list-todo.component';
 import { appRoutes } from "./app-routes";
-import { HomeComponent } from './home/home.component';
+import { PageNotFoundComponent } from './home/home.component';
 import { ToDoService } from "./to-do.service";
 
 @NgModule({
@@ -17,7 +17,7 @@ import { ToDoService } from "./to-do.service";
         AppComponent,
         AddTodoComponent,
         ListTodoComponent,
-        HomeComponent
+        PageNotFoundComponent
     ],
     imports: [
         BrowserModule,

@@ -14,7 +14,7 @@ export class AddTodoComponent implements OnInit {
     private toDo: ToDo;
     private form: FormGroup;
 
-    constructor(private fb: FormBuilder, private activatedRoute: ActivatedRoute, private _ToDoService: ToDoService, private router: Router) {
+    constructor(private _FormBuilder: FormBuilder, private _ActivatedRoute: ActivatedRoute, private _ToDoService: ToDoService, private _Router: Router) {
         this.initializeForm();
     }
 
@@ -23,7 +23,7 @@ export class AddTodoComponent implements OnInit {
     }
 
     public buildForm(): void {
-        this.form = this.fb.group({
+        this.form = this._FormBuilder.group({
             name: [
                 this.toDo.name, [
                     Validators.required,
@@ -59,7 +59,7 @@ export class AddTodoComponent implements OnInit {
 
     private initializeForm(): void {
         this.toDo = this.toDo || new ToDo();
-        this.activatedRoute.queryParams.subscribe((params: Params) => {
+        this._ActivatedRoute.queryParams.subscribe((params: Params) => {
             if (!params.id) {
                 return;
             }
@@ -76,7 +76,7 @@ export class AddTodoComponent implements OnInit {
     private redirect(promise: Promise<ToDo>): void {
         promise
             .then((response: ToDo) => {
-                this.router.navigate(["/list"]);
+                this._Router.navigate(["/home"]);
             })
             .catch((error: any) => {
                 console.log(error);
