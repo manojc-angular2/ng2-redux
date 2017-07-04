@@ -7,43 +7,48 @@ export class ToDoService {
     private toDos: ToDo[];
     constructor() { }
 
-    public getToDos() {
-        this.toDos = JSON.parse(localStorage.getItem('toDos')) || [];
-        return this.toDos;
-    }
-
-    public getToDo(id: string) {
+    public getToDos(): Promise<ToDo[]> {
         try {
-            this.toDos = JSON.parse(localStorage.getItem('toDos')) || [];
-            return this.toDos.find((toDo: ToDo) => {
-                return toDo.id === parseInt(id);
-            });
+            this.setToDos();
+            return Promise.resolve(this.toDos);
+
         } catch (error) {
-            console.log(error);
+            return Promise.reject(error);
         }
     }
 
-    public addToDo(toDo: ToDo): boolean {
+    public getToDo(id: string): Promise<ToDo> {
         try {
-            this.toDos = JSON.parse(localStorage.getItem('toDos')) || [];
+            this.setToDos();
+            let toDo: ToDo = this.toDos.find((toDo: ToDo) => {
+                return toDo.id === parseInt(id);
+            });
+            return Promise.resolve(toDo);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    public addToDo(toDo: ToDo): Promise<ToDo> {
+        try {
+            this.setToDos();
             toDo.id = this.getNewId();
             this.toDos.push(toDo);
             localStorage.setItem('toDos', JSON.stringify(this.toDos));
-            return true;
+            return Promise.resolve(toDo);
         } catch (error) {
-            console.error(error);
-            return false
+            return Promise.reject(error);
         }
     }
 
-    public updateToDo(toDo: ToDo): boolean {
+    public updateToDo(toDo: ToDo): Promise<ToDo> {
 
         if (!toDo || !toDo.id) {
-            return false;
+            Promise.reject(null);
         }
 
         try {
-            this.toDos = JSON.parse(localStorage.getItem('toDos')) || [];
+            this.setToDos();
             this.toDos.forEach((toDoItem: ToDo) => {
                 if (toDo.id === toDoItem.id) {
                     toDoItem.name = toDo.name;
@@ -51,29 +56,27 @@ export class ToDoService {
                 }
             });
             localStorage.setItem('toDos', JSON.stringify(this.toDos));
-            return true;
+            return Promise.resolve(toDo);
         } catch (error) {
-            console.error(error);
-            return false
+            return Promise.reject(error);
         }
     }
 
-    public deleteToDo(toDo: ToDo): boolean {
+    public deleteToDo(toDo: ToDo): Promise<boolean> {
 
         if (!toDo || !toDo.id) {
-            return false;
+            return Promise.resolve(false);
         }
 
         try {
-            this.toDos = JSON.parse(localStorage.getItem('toDos')) || [];
+            this.setToDos();
             this.toDos = this.toDos.filter((toDoItem: ToDo) => {
                 return toDoItem.id !== toDo.id;
             });
             localStorage.setItem('toDos', JSON.stringify(this.toDos));
-            return true;
+            return Promise.resolve(true);
         } catch (error) {
-            console.log(error);
-            return false
+            return Promise.reject(error);
         }
     }
 
@@ -87,5 +90,9 @@ export class ToDoService {
             return item1.id - item2.id;
         })
         return this.toDos[this.toDos.length - 1].id + 1;
+    }
+
+    private setToDos(): void {
+        this.toDos = JSON.parse(localStorage.getItem('toDos')) || [];
     }
 }

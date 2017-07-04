@@ -17,13 +17,17 @@ export class ListTodoComponent implements OnInit {
         private router: Router) { }
 
     ngOnInit() {
-        this.toDos = this._ToDoService.getToDos();
+        this.getToDos();
     }
 
     deleteToDo(toDo: ToDo) {
-        if (this._ToDoService.deleteToDo(toDo)) {
-            this.toDos = this._ToDoService.getToDos();
-        }
+        this._ToDoService.deleteToDo(toDo)
+        .then((response: boolean) => {
+            this.getToDos();
+        })
+        .catch((error: any) => {
+            console.log(error);
+        });
     }
 
     editToDo(toDo: ToDo) {
@@ -31,5 +35,15 @@ export class ListTodoComponent implements OnInit {
             return;
         }
         this.router.navigate(["/add"], { queryParams: { id: toDo.id } });
+    }
+
+    private getToDos(): void {
+        this._ToDoService.getToDos()
+            .then((response: ToDo[]) => {
+                this.toDos = response;
+            })
+            .catch((error: any) => {
+                console.log(error);
+            });
     }
 }
