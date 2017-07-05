@@ -11,7 +11,8 @@ import { ListTodoComponent } from './list-todo/list-todo.component';
 import { appRoutes } from "./app-routes";
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ToDoService } from "./to-do.service";
-import { toDoReducer } from "./reducers/to-do-reducer";
+import { toDoListReducer, toDoItemReducer } from "./reducers/to-do-reducer";
+import { ToDoResolverService } from "app/add-todo/to-do-resolver.service";
 
 @NgModule({
     declarations: [
@@ -25,12 +26,15 @@ import { toDoReducer } from "./reducers/to-do-reducer";
         HttpModule,
         FormsModule,
         ReactiveFormsModule,
-        StoreModule.provideStore({ todo: toDoReducer }),
+        StoreModule.provideStore({
+                todos: toDoListReducer,
+                todo: toDoItemReducer
+        }),
         RouterModule.forRoot(
             appRoutes
         )
     ],
-    providers: [ToDoService],
+    providers: [ToDoService, ToDoResolverService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

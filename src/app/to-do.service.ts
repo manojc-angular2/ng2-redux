@@ -1,15 +1,20 @@
 import { Injectable } from '@angular/core';
 import { ToDo } from "./models/todo.model";
+import { Store } from "@ngrx/store";
+import { AppModelState } from "./models/app-model-state";
+import { ADD_TODO, UPDATE_TODO, GET_TODOS, DELETE_TODO, SET_TODO } from "./reducers/to-do-reducer";
 
 @Injectable()
 export class ToDoService {
 
     private toDos: ToDo[];
-    constructor() { }
+    constructor(private _ToDosStore: Store<AppModelState<ToDo[]>>,
+        private _ToDoStore: Store<AppModelState<ToDo>>) { }
 
     public getToDos(): Promise<ToDo[]> {
         try {
             this.setToDos();
+            this._ToDosStore.dispatch({ type: GET_TODOS, payload: this.toDos });
             return Promise.resolve(this.toDos);
 
         } catch (error) {
@@ -23,6 +28,7 @@ export class ToDoService {
             let toDo: ToDo = this.toDos.find((toDo: ToDo) => {
                 return toDo.id === parseInt(id);
             });
+            this._ToDoStore.dispatch({ type: SET_TODO, payload: toDo });
             return Promise.resolve(toDo);
         } catch (error) {
             return Promise.reject(error);
@@ -35,6 +41,7 @@ export class ToDoService {
             toDo.id = this.getNewId();
             this.toDos.push(toDo);
             localStorage.setItem('toDos', JSON.stringify(this.toDos));
+            this._ToDosStore.dispatch({ type: ADD_TODO, payload: this.toDos });
             return Promise.resolve(toDo);
         } catch (error) {
             return Promise.reject(error);
@@ -56,6 +63,7 @@ export class ToDoService {
                 }
             });
             localStorage.setItem('toDos', JSON.stringify(this.toDos));
+            this._ToDosStore.dispatch({ type: UPDATE_TODO, payload: this.toDos });
             return Promise.resolve(toDo);
         } catch (error) {
             return Promise.reject(error);
@@ -74,6 +82,7 @@ export class ToDoService {
                 return toDoItem.id !== toDo.id;
             });
             localStorage.setItem('toDos', JSON.stringify(this.toDos));
+            this._ToDosStore.dispatch({ type: DELETE_TODO, payload: this.toDos });
             return Promise.resolve(true);
         } catch (error) {
             return Promise.reject(error);
