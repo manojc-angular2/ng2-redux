@@ -8,11 +8,6 @@ export class ToDoResolverService implements Resolve<ToDo> {
     constructor(private _ToDoService: ToDoService) { }
 
     resolve(route: ActivatedRouteSnapshot) {
-        try {
-            parseInt(route.params.id);
-            return this._ToDoService.getToDo(route.params.id);
-        } catch (error) {
-            return Promise.resolve(new ToDo());
-        }
+        return this._ToDoService.getToDo(route.params.id);
     }
 }
